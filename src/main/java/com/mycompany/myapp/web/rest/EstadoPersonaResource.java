@@ -90,8 +90,6 @@ public class EstadoPersonaResource {
         return estadoPersonaRepository.findAll();
     }
 
-   
-
     /**
      * {@code GET  /estado-personas/:id} : get the "id" estadoPersona.
      *
@@ -105,7 +103,6 @@ public class EstadoPersonaResource {
         return ResponseUtil.wrapOrNotFound(estadoPersona);
     }
 
-   
     /**
      * {@code DELETE  /estado-personas/:id} : delete the "id" estadoPersona.
      *

@@ -8,6 +8,12 @@
     -->
     <changeSet id="20191101194611-2" author="jhipster">
         
+        <addForeignKeyConstraint baseColumnNames="persona_estado_id"
+                                 baseTableName="persona"
+                                 constraintName="fk_persona_persona_estado_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="estado_persona"/>
+
         <addForeignKeyConstraint baseColumnNames="persona_user_id"
                                  baseTableName="persona"
                                  constraintName="fk_persona_persona_user_id"
@@ -31,18 +37,6 @@
                                  constraintName="fk_persona_vehiculo_vehiculo_id"
                                  referencedColumnNames="id"
                                  referencedTableName="vehiculo"/>
-        
-        <addForeignKeyConstraint baseColumnNames="persona_id"
-                                 baseTableName="persona_persona_estado"
-                                 constraintName="fk_persona_persona_estado_persona_id"
-                                 referencedColumnNames="id"
-                                 referencedTableName="persona"/>
-
-        <addForeignKeyConstraint baseColumnNames="persona_estado_id"
-                                 baseTableName="persona_persona_estado"
-                                 constraintName="fk_persona_persona_estado_persona_estado_id"
-                                 referencedColumnNames="id"
-                                 referencedTableName="estado_persona"/>
         
     </changeSet>
 </databaseChangeLog>

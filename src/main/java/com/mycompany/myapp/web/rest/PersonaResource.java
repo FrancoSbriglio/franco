@@ -106,7 +106,6 @@ public class PersonaResource {
         Optional<Persona> persona = personaRepository.findOneWithEagerRelationships(id);
         return ResponseUtil.wrapOrNotFound(persona);
     }
-
     @GetMapping("/personas/dni/{dnipersona}")
     public ResponseEntity<Persona> getPersona(@PathVariable Integer dnipersona) {
         log.debug("REST request to get Persona : {}", dnipersona);

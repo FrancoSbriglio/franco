@@ -24,16 +24,15 @@ public interface PersonaRepository extends JpaRepository<Persona, Long> {
     @Query("select persona from Persona persona where persona.personaUser.login = ?#{principal.username}")
     List<Persona> findByPersonaUserIsCurrentUser();
 
-    @Query(value = "select distinct persona from Persona persona left join fetch persona.vehiculos left join fetch persona.personaEstados",
+    @Query(value = "select distinct persona from Persona persona left join fetch persona.vehiculos",
         countQuery = "select count(distinct persona) from Persona persona")
     Page<Persona> findAllWithEagerRelationships(Pageable pageable);
 
-    @Query("select distinct persona from Persona persona left join fetch persona.vehiculos left join fetch persona.personaEstados")
+    @Query("select distinct persona from Persona persona left join fetch persona.vehiculos")
     List<Persona> findAllWithEagerRelationships();
 
-    @Query("select persona from Persona persona left join fetch persona.vehiculos left join fetch persona.personaEstados where persona.id =:id")
+    @Query("select persona from Persona persona left join fetch persona.vehiculos where persona.id =:id")
     Optional<Persona> findOneWithEagerRelationships(@Param("id") Long id);
-
 
     @Query("select persona from Persona persona left join fetch persona.vehiculos where persona.dniPersona =:dniPersona")
     Optional<Persona> findAlldnipersona(@Param ("dniPersona") Integer dniPersona);

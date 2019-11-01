@@ -7,13 +7,13 @@ import { filter, map } from 'rxjs/operators';
 import { JhiAlertService } from 'ng-jhipster';
 import { IPersona, Persona } from 'app/shared/model/persona.model';
 import { PersonaService } from './persona.service';
+import { IEstadoPersona } from 'app/shared/model/estado-persona.model';
+import { EstadoPersonaService } from 'app/entities/estado-persona';
 import { IUser, UserService } from 'app/core';
 import { IBarrio } from 'app/shared/model/barrio.model';
 import { BarrioService } from 'app/entities/barrio';
 import { IVehiculo } from 'app/shared/model/vehiculo.model';
 import { VehiculoService } from 'app/entities/vehiculo';
-import { IEstadoPersona } from 'app/shared/model/estado-persona.model';
-import { EstadoPersonaService } from 'app/entities/estado-persona';
 import { IDomicilio } from 'app/shared/model/domicilio.model';
 import { DomicilioService } from 'app/entities/domicilio';
 
@@ -24,13 +24,13 @@ import { DomicilioService } from 'app/entities/domicilio';
 export class PersonaUpdateComponent implements OnInit {
   isSaving: boolean;
 
+  personaestados: IEstadoPersona[];
+
   users: IUser[];
 
   barrios: IBarrio[];
 
   vehiculos: IVehiculo[];
-
-  estadopersonas: IEstadoPersona[];
 
   domicilios: IDomicilio[];
 
@@ -40,19 +40,19 @@ export class PersonaUpdateComponent implements OnInit {
     apellidoPersona: [],
     dniPersona: [],
     telefonoPersona: [],
+    personaEstado: [],
     personaUser: [],
     personabarrio: [],
-    vehiculos: [],
-    personaEstados: []
+    vehiculos: []
   });
 
   constructor(
     protected jhiAlertService: JhiAlertService,
     protected personaService: PersonaService,
+    protected estadoPersonaService: EstadoPersonaService,
     protected userService: UserService,
     protected barrioService: BarrioService,
     protected vehiculoService: VehiculoService,
-    protected estadoPersonaService: EstadoPersonaService,
     protected domicilioService: DomicilioService,
     protected activatedRoute: ActivatedRoute,
     private fb: FormBuilder
@@ -63,6 +63,31 @@ export class PersonaUpdateComponent implements OnInit {
     this.activatedRoute.data.subscribe(({ persona }) => {
       this.updateForm(persona);
     });
+    this.estadoPersonaService
+      .query({ filter: 'persona-is-null' })
+      .pipe(
+        filter((mayBeOk: HttpResponse<IEstadoPersona[]>) => mayBeOk.ok),
+        map((response: HttpResponse<IEstadoPersona[]>) => response.body)
+      )
+      .subscribe(
+        (res: IEstadoPersona[]) => {
+          if (!this.editForm.get('personaEstado').value || !this.editForm.get('personaEstado').value.id) {
+            this.personaestados = res;
+          } else {
+            this.estadoPersonaService
+              .find(this.editForm.get('personaEstado').value.id)
+              .pipe(
+                filter((subResMayBeOk: HttpResponse<IEstadoPersona>) => subResMayBeOk.ok),
+                map((subResponse: HttpResponse<IEstadoPersona>) => subResponse.body)
+              )
+              .subscribe(
+                (subRes: IEstadoPersona) => (this.personaestados = [subRes].concat(res)),
+                (subRes: HttpErrorResponse) => this.onError(subRes.message)
+              );
+          }
+        },
+        (res: HttpErrorResponse) => this.onError(res.message)
+      );
     this.userService
       .query()
       .pipe(
@@ -84,13 +109,6 @@ export class PersonaUpdateComponent implements OnInit {
         map((response: HttpResponse<IVehiculo[]>) => response.body)
       )
       .subscribe((res: IVehiculo[]) => (this.vehiculos = res), (res: HttpErrorResponse) => this.onError(res.message));
-    this.estadoPersonaService
-      .query()
-      .pipe(
-        filter((mayBeOk: HttpResponse<IEstadoPersona[]>) => mayBeOk.ok),
-        map((response: HttpResponse<IEstadoPersona[]>) => response.body)
-      )
-      .subscribe((res: IEstadoPersona[]) => (this.estadopersonas = res), (res: HttpErrorResponse) => this.onError(res.message));
     this.domicilioService
       .query()
       .pipe(
@@ -107,10 +125,10 @@ export class PersonaUpdateComponent implements OnInit {
       apellidoPersona: persona.apellidoPersona,
       dniPersona: persona.dniPersona,
       telefonoPersona: persona.telefonoPersona,
+      personaEstado: persona.personaEstado,
       personaUser: persona.personaUser,
       personabarrio: persona.personabarrio,
-      vehiculos: persona.vehiculos,
-      personaEstados: persona.personaEstados
+      vehiculos: persona.vehiculos
     });
   }
 
@@ -136,10 +154,10 @@ export class PersonaUpdateComponent implements OnInit {
       apellidoPersona: this.editForm.get(['apellidoPersona']).value,
       dniPersona: this.editForm.get(['dniPersona']).value,
       telefonoPersona: this.editForm.get(['telefonoPersona']).value,
+      personaEstado: this.editForm.get(['personaEstado']).value,
       personaUser: this.editForm.get(['personaUser']).value,
       personabarrio: this.editForm.get(['personabarrio']).value,
-      vehiculos: this.editForm.get(['vehiculos']).value,
-      personaEstados: this.editForm.get(['personaEstados']).value
+      vehiculos: this.editForm.get(['vehiculos']).value
     };
   }
 
@@ -159,6 +177,10 @@ export class PersonaUpdateComponent implements OnInit {
     this.jhiAlertService.error(errorMessage, null, null);
   }
 
+  trackEstadoPersonaById(index: number, item: IEstadoPersona) {
+    return item.id;
+  }
+
   trackUserById(index: number, item: IUser) {
     return item.id;
   }
@@ -168,10 +190,6 @@ export class PersonaUpdateComponent implements OnInit {
   }
 
   trackVehiculoById(index: number, item: IVehiculo) {
-    return item.id;
-  }
-
-  trackEstadoPersonaById(index: number, item: IEstadoPersona) {
     return item.id;
   }
 

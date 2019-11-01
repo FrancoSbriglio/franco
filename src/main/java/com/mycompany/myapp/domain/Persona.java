@@ -33,6 +33,10 @@ public class Persona implements Serializable {
     @Column(name = "telefono_persona")
     private Integer telefonoPersona;
 
+    @OneToOne
+    @JoinColumn(unique = true)
+    private EstadoPersona personaEstado;
+
     @ManyToOne
     @JsonIgnoreProperties("personas")
     private User personaUser;
@@ -46,12 +50,6 @@ public class Persona implements Serializable {
                joinColumns = @JoinColumn(name = "persona_id", referencedColumnName = "id"),
                inverseJoinColumns = @JoinColumn(name = "vehiculo_id", referencedColumnName = "id"))
     private Set<Vehiculo> vehiculos = new HashSet<>();
-
-    @ManyToMany
-    @JoinTable(name = "persona_persona_estado",
-               joinColumns = @JoinColumn(name = "persona_id", referencedColumnName = "id"),
-               inverseJoinColumns = @JoinColumn(name = "persona_estado_id", referencedColumnName = "id"))
-    private Set<EstadoPersona> personaEstados = new HashSet<>();
 
     @ManyToMany(mappedBy = "domiciliopersonas")
     @JsonIgnore
@@ -118,6 +116,19 @@ public class Persona implements Serializable {
         this.telefonoPersona = telefonoPersona;
     }
 
+    public EstadoPersona getPersonaEstado() {
+        return personaEstado;
+    }
+
+    public Persona personaEstado(EstadoPersona estadoPersona) {
+        this.personaEstado = estadoPersona;
+        return this;
+    }
+
+    public void setPersonaEstado(EstadoPersona estadoPersona) {
+        this.personaEstado = estadoPersona;
+    }
+
     public User getPersonaUser() {
         return personaUser;
     }
@@ -153,35 +164,20 @@ public class Persona implements Serializable {
         return this;
     }
 
-  
+    /*public Persona addVehiculo(Vehiculo vehiculo) {
+        this.vehiculos.add(vehiculo);
+        vehiculo.getPersonas().add(this);
+        return this;
+    }
+
+    public Persona removeVehiculo(Vehiculo vehiculo) {
+        this.vehiculos.remove(vehiculo);
+        vehiculo.getPersonas().remove(this);
+        return this;
+    }*/
 
     public void setVehiculos(Set<Vehiculo> vehiculos) {
         this.vehiculos = vehiculos;
-    }
-
-    public Set<EstadoPersona> getPersonaEstados() {
-        return personaEstados;
-    }
-
-    public Persona personaEstados(Set<EstadoPersona> estadoPersonas) {
-        this.personaEstados = estadoPersonas;
-        return this;
-    }
-
-    public Persona addPersonaEstado(EstadoPersona estadoPersona) {
-        this.personaEstados.add(estadoPersona);
-        estadoPersona.getEstadoPersonas().add(this);
-        return this;
-    }
-
-    public Persona removePersonaEstado(EstadoPersona estadoPersona) {
-        this.personaEstados.remove(estadoPersona);
-        estadoPersona.getEstadoPersonas().remove(this);
-        return this;
-    }
-
-    public void setPersonaEstados(Set<EstadoPersona> estadoPersonas) {
-        this.personaEstados = estadoPersonas;
     }
 
     public Set<Domicilio> getPersonadomicilios() {

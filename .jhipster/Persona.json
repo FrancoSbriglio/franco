@@ -20,6 +20,14 @@
     ],
     "relationships": [
         {
+            "relationshipType": "one-to-one",
+            "otherEntityName": "estadoPersona",
+            "otherEntityRelationshipName": "persona",
+            "relationshipName": "personaEstado",
+            "otherEntityField": "id",
+            "ownerSide": true
+        },
+        {
             "relationshipType": "many-to-one",
             "otherEntityName": "user",
             "otherEntityRelationshipName": "persona",
@@ -38,14 +46,6 @@
             "otherEntityName": "vehiculo",
             "otherEntityRelationshipName": "persona",
             "relationshipName": "vehiculo",
-            "otherEntityField": "id",
-            "ownerSide": true
-        },
-        {
-            "relationshipType": "many-to-many",
-            "otherEntityName": "estadoPersona",
-            "otherEntityRelationshipName": "estadoPersona",
-            "relationshipName": "personaEstado",
             "otherEntityField": "id",
             "ownerSide": true
         },

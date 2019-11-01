@@ -21,6 +21,12 @@
                 <dd>
                     <span>{{persona.telefonoPersona}}</span>
                 </dd>
+                <dt><span>Persona Estado</span></dt>
+                <dd>
+                    <div *ngIf="persona.personaEstado">
+                        <a [routerLink]="['/estado-persona', persona.personaEstado?.id, 'view']">{{persona.personaEstado?.id}}</a>
+                    </div>
+                </dd>
                 <dt><span>Persona User</span></dt>
                 <dd>
                     {{persona.personaUser?.id}}
@@ -35,12 +41,6 @@
                 <dd>
                     <span *ngFor="let vehiculo of persona.vehiculos; let last = last">
                         <a [routerLink]="['/vehiculo', vehiculo?.id, 'view' ]">{{vehiculo.id}}</a>{{last ? '' : ', '}}
-                    </span>
-                </dd>
-                <dt><span>Persona Estado</span></dt>
-                <dd>
-                    <span *ngFor="let personaEstado of persona.personaEstados; let last = last">
-                        <a [routerLink]="['/estado-persona', personaEstado?.id, 'view' ]">{{personaEstado.id}}</a>{{last ? '' : ', '}}
                     </span>
                 </dd>
             </dl>

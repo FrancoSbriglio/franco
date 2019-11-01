@@ -31,7 +31,9 @@
             <column name="telefono_persona" type="integer">
                 <constraints nullable="true" />
             </column>
-
+            <column name="persona_estado_id" type="bigint">
+                <constraints unique="true" nullable="true" uniqueConstraintName="ux_persona_persona_estado_id" />
+            </column>
             <column name="persona_user_id" type="bigint">
                 <constraints nullable="true" />
             </column>
@@ -57,17 +59,6 @@
         </createTable>
 
         <addPrimaryKey columnNames="persona_id, vehiculo_id" tableName="persona_vehiculo"/>
-        
-        <createTable tableName="persona_persona_estado">
-            <column name="persona_estado_id" type="bigint">
-                <constraints nullable="false"/>
-            </column>
-            <column name="persona_id" type="bigint">
-                <constraints nullable="false"/>
-            </column>
-        </createTable>
-
-        <addPrimaryKey columnNames="persona_id, persona_estado_id" tableName="persona_persona_estado"/>
         
     </changeSet>
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here, do not remove-->

@@ -1,11 +1,9 @@
 package com.mycompany.myapp.domain;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
+import java.time.ZonedDateTime;
 
 /**
  * A EstadoPersona.
@@ -23,9 +21,8 @@ public class EstadoPersona implements Serializable {
     @Column(name = "nombre_estado_persona")
     private String nombreEstadoPersona;
 
-    @ManyToMany(mappedBy = "personaEstados")
-    @JsonIgnore
-    private Set<Persona> estadoPersonas = new HashSet<>();
+    @Column(name = "fecha")
+    private ZonedDateTime fecha;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -49,29 +46,17 @@ public class EstadoPersona implements Serializable {
         this.nombreEstadoPersona = nombreEstadoPersona;
     }
 
-    public Set<Persona> getEstadoPersonas() {
-        return estadoPersonas;
+    public ZonedDateTime getFecha() {
+        return fecha;
     }
 
-    public EstadoPersona estadoPersonas(Set<Persona> personas) {
-        this.estadoPersonas = personas;
+    public EstadoPersona fecha(ZonedDateTime fecha) {
+        this.fecha = fecha;
         return this;
     }
 
-    public EstadoPersona addEstadoPersona(Persona persona) {
-        this.estadoPersonas.add(persona);
-        persona.getPersonaEstados().add(this);
-        return this;
-    }
-
-    public EstadoPersona removeEstadoPersona(Persona persona) {
-        this.estadoPersonas.remove(persona);
-        persona.getPersonaEstados().remove(this);
-        return this;
-    }
-
-    public void setEstadoPersonas(Set<Persona> personas) {
-        this.estadoPersonas = personas;
+    public void setFecha(ZonedDateTime fecha) {
+        this.fecha = fecha;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
@@ -96,6 +81,7 @@ public class EstadoPersona implements Serializable {
         return "EstadoPersona{" +
             "id=" + getId() +
             ", nombreEstadoPersona='" + getNombreEstadoPersona() + "'" +
+            ", fecha='" + getFecha() + "'" +
             "}";
     }
 }
