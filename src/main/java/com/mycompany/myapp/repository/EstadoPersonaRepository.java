@@ -15,6 +15,4 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface EstadoPersonaRepository extends JpaRepository<EstadoPersona, Long> {
 
-    @Query("select ep from EstadoPersona ep join ep.estadoPersona p where p.id =:id")
-    Optional<EstadoPersona> findAllestados(@Param("id") Long id);
 }

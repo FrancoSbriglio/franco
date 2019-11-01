@@ -155,6 +155,13 @@ public class PersonaResource {
          
          return persona;
      }
+
+     @GetMapping("/personas/estado/{id}")
+     public List<Persona> getPersonae(@PathVariable Long id) {
+         log.debug("REST request to get Persona : {}", id);
+         List<Persona> persona = personaRepository.findAllestado(id);
+         return persona;
+     }
     /**
      * {@code DELETE  /personas/:id} : delete the "id" persona.
      *
