@@ -34,7 +34,7 @@ public class Persona implements Serializable {
     private Integer telefonoPersona;
 
     @OneToOne
-    @JoinColumn(unique = true)
+    @JoinColumn(unique = false)
     private EstadoPersona personaEstado;
 
     @ManyToOne
