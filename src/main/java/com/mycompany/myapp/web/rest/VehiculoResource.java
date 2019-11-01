@@ -103,6 +103,13 @@ public class VehiculoResource {
         return ResponseUtil.wrapOrNotFound(vehiculo);
     }
 
+    @GetMapping("/vehiculos/dominio/{dominio}")
+    public ResponseEntity<Vehiculo> getVehiculo(@PathVariable String dominio) {
+        log.debug("REST request to get Vehiculo : {}", dominio);
+        Optional<Vehiculo> vehiculo = vehiculoRepository.findByDominio(dominio);
+        return ResponseUtil.wrapOrNotFound(vehiculo);
+    }
+
     /**
      * {@code DELETE  /vehiculos/:id} : delete the "id" vehiculo.
      *

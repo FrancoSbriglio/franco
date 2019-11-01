@@ -103,6 +103,13 @@ public class MarcaResource {
         return ResponseUtil.wrapOrNotFound(marca);
     }
 
+    @GetMapping("/marcas/nombremarcas/{nombremarca}")
+    public ResponseEntity<Marca> getMarca(@PathVariable String nombremarca) {
+        log.debug("REST request to get Marca : {}", nombremarca);
+        Optional<Marca> marca = marcaRepository.findByNombreMarca(nombremarca);
+        return ResponseUtil.wrapOrNotFound(marca);
+    }
+
     /**
      * {@code DELETE  /marcas/:id} : delete the "id" marca.
      *

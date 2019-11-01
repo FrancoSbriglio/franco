@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -102,6 +102,30 @@ public class PlanillaIngresoEgresoResource {
         Optional<PlanillaIngresoEgreso> planillaIngresoEgreso = planillaIngresoEgresoRepository.findOneWithEagerRelationships(id);
         return ResponseUtil.wrapOrNotFound(planillaIngresoEgreso);
     }
+
+    @GetMapping("/planillaegreso/dni/{dnipersona}")
+    public ResponseEntity<PlanillaIngresoEgreso> getPlanillaIngresoEgreso(@PathVariable Integer dnipersona) {
+        log.debug("REST request to get PlanillaIngresoEgreso : {}", dnipersona);
+        Optional<PlanillaIngresoEgreso> planillaIngresoEgreso = planillaIngresoEgresoRepository.findAlldniegreso(dnipersona);
+        return ResponseUtil.wrapOrNotFound(planillaIngresoEgreso);
+    }
+
+    @GetMapping("/entrefechas/")
+    public List<PlanillaIngresoEgreso> getPlanillaIngresoEgreso(@RequestParam(name="fechaingreso") String  fechaingreso,@RequestParam(name="fechaegreso")   String  fechaegreso) {
+        log.debug("REST request to get PlanillaIngresoEgreso fmefeofkeopfkekfekfo: {}", fechaingreso);
+        ZonedDateTime fecha1 = ZonedDateTime.parse(fechaingreso);
+        ZonedDateTime fecha2 = ZonedDateTime.parse(fechaegreso);
+        List<PlanillaIngresoEgreso> planillaIngresoEgreso = planillaIngresoEgresoRepository.findByAllentrefechas(fecha1,fecha2);
+        return planillaIngresoEgreso;
+    }
+
+    @GetMapping("/planilladomicilio/")
+    public List<PlanillaIngresoEgreso> getPlanillaIngresoEgresodom(@RequestParam(name="casaDomicilio") String  casaDomicilio,@RequestParam(name="manzanaDomicilio")   String  manzanaDomicilio) {
+        log.debug("REST request to get PlanillaIngresoEgreso fmefeofkeopfkekfekfo: {}", casaDomicilio);
+        List<PlanillaIngresoEgreso> planillaIngresoEgreso = planillaIngresoEgresoRepository.findAllplanilladomicilio(casaDomicilio,manzanaDomicilio);
+        return planillaIngresoEgreso;
+    }
+
 
     /**
      * {@code DELETE  /planilla-ingreso-egresos/:id} : delete the "id" planillaIngresoEgreso.

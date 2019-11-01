@@ -26,4 +26,6 @@ public interface MarcaRepository extends JpaRepository<Marca, Long> {
     @Query("select marca from Marca marca left join fetch marca.modelos where marca.id =:id")
     Optional<Marca> findOneWithEagerRelationships(@Param("id") Long id);
 
+    @Query("select marca from Marca marca left join fetch marca.modelos where marca.nombreMarca =:nombreMarca")
+    Optional<Marca> findByNombreMarca(@Param("nombreMarca") String nombreMarca);
 }

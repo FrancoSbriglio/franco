@@ -1,5 +1,6 @@
 package com.mycompany.myapp.web.rest;
 
+import com.mycompany.myapp.domain.Domicilio;
 import com.mycompany.myapp.domain.QR;
 import com.mycompany.myapp.repository.QRRepository;
 import com.mycompany.myapp.web.rest.errors.BadRequestAlertException;
@@ -101,6 +102,31 @@ public class QRResource {
         log.debug("REST request to get QR : {}", id);
         Optional<QR> qR = qRRepository.findById(id);
         return ResponseUtil.wrapOrNotFound(qR);
+    }
+
+    @GetMapping("/qrs/personaqr/{codigoqr}")
+    public QR getQR(@PathVariable String codigoqr) {
+        log.debug("REST request to get QR : {}", codigoqr);
+        QR qR = qRRepository.findAllqrpersona(codigoqr);
+        return qR;
+    }
+
+    @GetMapping("/qrs/domicilioqr/{id}")
+    public List<QR> getQRdom(@PathVariable Long id) {
+        log.debug("REST request to get QR : {}", id);
+        List<QR> qR = qRRepository.findAllqrdominio(id);
+        return qR;
+    }
+
+    @GetMapping("/qrs/qrautorizado/{id}")
+    public List<QR> getQRauth(@PathVariable Long id) {
+        log.debug("REST request to get QR : {}", id);
+        List<QR> qR = qRRepository.findAllautorizado(id);
+        Domicilio qR1 = qRRepository.findAllautorizado1(id);
+         for (QR q : qR) {
+            q.setQrDomicilio(qR1);
+        } 
+        return qR;
     }
 
     /**

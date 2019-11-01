@@ -103,6 +103,14 @@ public class MensajeResource {
         return ResponseUtil.wrapOrNotFound(mensaje);
     }
 
+    @GetMapping("/mensajesod/")
+    public List<Mensaje> getMensajes(@RequestParam(required = false, defaultValue = "false") Long id,@RequestParam(required = false, defaultValue = "false") Long iddestino) {
+        log.debug("REST request to get Mensaje : {}", id);
+        List<Mensaje> mensaje = mensajeRepository.findAllmensaje(id,iddestino);
+        return mensaje;
+
+    }
+
     /**
      * {@code DELETE  /mensajes/:id} : delete the "id" mensaje.
      *
