@@ -1,0 +1,28 @@
+{
+    "name": "EstadoPersona",
+    "fields": [
+        {
+            "fieldName": "nombreEstadoPersona",
+            "fieldType": "String"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "many-to-many",
+            "otherEntityName": "persona",
+            "otherEntityRelationshipName": "personaEstado",
+            "relationshipName": "estadoPersona",
+            "otherEntityField": "id",
+            "ownerSide": false
+        }
+    ],
+    "changelogDate": "20191101194610",
+    "entityTableName": "estado_persona",
+    "dto": "no",
+    "pagination": "no",
+    "service": "no",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}
