@@ -55,7 +55,7 @@ public class Persona implements Serializable {
     @JsonIgnore
     private Set<Domicilio> personadomicilios = new HashSet<>();
 
-    // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
+    // jhipster-needle-entity-aadd-field - JHipster will add fields here, do not remove
     public Long getId() {
         return id;
     }
